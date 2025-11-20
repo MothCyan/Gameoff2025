@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Dun
   - Wave
+  - PiercingWave
   layers:
   - Default
   - TransparentFX
