@@ -224,9 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 30
+  speed: 60
   lifeTime: 8
   enableBounce: 1
   bounceFactor: 0.8
-  maxBounceCount: 5
+  maxBounceCount: 7
   pierceSpeedThreshold: 5

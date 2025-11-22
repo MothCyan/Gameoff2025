@@ -201,7 +201,7 @@ MonoBehaviour:
   lifeTime: 5
   enableBounce: 1
   bounceFactor: 0.8
-  maxBounceCount: 3
+  maxBounceCount: 7
 --- !u!50 &-7989764674735283686
 Rigidbody2D:
   serializedVersion: 4
