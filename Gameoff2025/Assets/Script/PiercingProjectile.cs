@@ -86,9 +86,19 @@ public class PiercingProjectile : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        return;
         if (other.tag == "Wave")
             return;
+            
+        // 检测敌人碰撞
+        if (other.CompareTag("Enemy") && other.isTrigger)
+        {
+            Debug.Log($"穿透波击中敌人: {other.gameObject.name}");
+            // 删除敌人
+            Destroy(other.gameObject);
+            // 删除波自己
+            Destroy(gameObject);
+            return;
+        }
 
         if (other.gameObject.tag == "Dun")
         {

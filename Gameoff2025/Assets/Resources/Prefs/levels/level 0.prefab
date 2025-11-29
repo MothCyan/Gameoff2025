@@ -154,13 +154,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6493172339157125507}
   - {fileID: 4971014839775195924}
-  - {fileID: 5753683911782199989}
-  - {fileID: 6719877985825201161}
   - {fileID: 3687862820809144558}
   - {fileID: 3548186953631488437}
   - {fileID: 2827826204317258631}
@@ -187,6 +185,7 @@ GameObject:
   - component: {fileID: 5753683911782199989}
   - component: {fileID: 8843442802146767474}
   - component: {fileID: 4298199473493353918}
+  - component: {fileID: 6066008826175254444}
   m_Layer: 0
   m_Name: wall
   m_TagString: Untagged
@@ -207,7 +206,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2133677960420731874}
+  m_Father: {fileID: 4971014839775195924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &8843442802146767474
 Tilemap:
@@ -2324,6 +2323,42 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &6066008826175254444
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972316197027434803}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &7577821152449162002
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,7 +2390,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2133677960420731874}
+  m_Father: {fileID: 4971014839775195924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &1169764438308772705
 Tilemap:
@@ -5471,7 +5506,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2906621331795018714, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4165764113299780034, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5753683911782199989}
+    - targetCorrespondingSourceObject: {fileID: 4165764113299780034, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6719877985825201161}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
 --- !u!4 &4971014839775195924 stripped

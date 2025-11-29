@@ -60,6 +60,16 @@ public class EarthquakeProjectile : MonoBehaviour
     {
         if (other.tag == "Wave")
             return;
+            
+        // 检测敌人碰撞 - 地震波会删除敌人但不删除自己（可以穿透）
+        if (other.CompareTag("Enemy") && other.isTrigger)
+        {
+            Debug.Log($"地震波击中敌人: {other.gameObject.name}");
+            // 删除敌人
+            Destroy(other.gameObject);
+            // 地震波不删除自己，继续前进
+            return;
+        }
 
         // 地震波无法被盾牌反弹和消除，直接穿透
         if (other.gameObject.tag == "Dun")

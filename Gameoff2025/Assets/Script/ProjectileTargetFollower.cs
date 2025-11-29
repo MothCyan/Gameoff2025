@@ -80,6 +80,18 @@ public class ProjectileTargetFollower : MonoBehaviour
     {
         if (other.tag == "Wave")
             return;
+            
+        // 检测敌人碰撞
+        if (other.CompareTag("enemy") && other.isTrigger&&currentBounceCount > 0)
+        {
+            Debug.Log($"波击中敌人: {other.gameObject.name}");
+            // 删除敌人
+            Destroy(other.gameObject);
+            // 删除波自己
+            Destroy(gameObject);
+            return;
+        }
+            
         //Debug.Log("触发碰撞: " + other.gameObject.name);
         if (enableBounce && currentBounceCount < maxBounceCount && other.gameObject.tag == "Dun")
         {
