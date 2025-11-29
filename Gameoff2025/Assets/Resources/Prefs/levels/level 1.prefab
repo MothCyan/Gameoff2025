@@ -12050,7 +12050,11 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2906621331795018714, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
       insertIndex: -1
+<<<<<<< Updated upstream
       addedObject: {fileID: 7801237862329871266}
+=======
+      addedObject: {fileID: 5222771701374997517}
+>>>>>>> Stashed changes
   m_SourcePrefab: {fileID: 100100000, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
 --- !u!4 &7951622749765745526 stripped
 Transform:
@@ -12062,7 +12066,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2906621331795018714, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
   m_PrefabInstance: {fileID: 6311252411125992116}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
 --- !u!19719996 &7801237862329871266
+=======
+--- !u!19719996 &5222771701374997517
+>>>>>>> Stashed changes
 TilemapCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
