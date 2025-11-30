@@ -192,7 +192,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8404104933933621417}
@@ -857,8 +857,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2745425010532567563, guid: b9874643b8f49ca45b762f35e21e4751, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1223633775406511628}
   m_SourcePrefab: {fileID: 100100000, guid: b9874643b8f49ca45b762f35e21e4751, type: 3}
+--- !u!1 &632106673059470451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2745425010532567563, guid: b9874643b8f49ca45b762f35e21e4751, type: 3}
+  m_PrefabInstance: {fileID: 3376578406666294904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!19719996 &1223633775406511628
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632106673059470451}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!4 &2796043669372263819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 581402837975600115, guid: b9874643b8f49ca45b762f35e21e4751, type: 3}
@@ -12003,13 +12047,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2906621331795018714, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
+      insertIndex: -1
+<<<<<<< Updated upstream
+      addedObject: {fileID: 7801237862329871266}
+=======
+      addedObject: {fileID: 5222771701374997517}
+>>>>>>> Stashed changes
   m_SourcePrefab: {fileID: 100100000, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
 --- !u!4 &7951622749765745526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4165764113299780034, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
   m_PrefabInstance: {fileID: 6311252411125992116}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9205487460959193454 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2906621331795018714, guid: c21e926940c125244b8f386c82b2f2d7, type: 3}
+  m_PrefabInstance: {fileID: 6311252411125992116}
+  m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
+--- !u!19719996 &7801237862329871266
+=======
+--- !u!19719996 &5222771701374997517
+>>>>>>> Stashed changes
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9205487460959193454}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1001 &7569091789353162511
 PrefabInstance:
   m_ObjectHideFlags: 0
