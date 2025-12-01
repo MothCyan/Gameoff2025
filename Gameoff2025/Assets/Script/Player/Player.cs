@@ -28,6 +28,10 @@ public class Player : MonoBehaviour
     public Image healthBar;
     public Image energyBar;
     
+    [Header("死亡设置")]
+    [Tooltip("生命值归零时激活的GameObject（例如：游戏结束界面、重生菜单等）")]
+    public GameObject deathObject; // 死亡时激活的对象
+    
     [Header("盾牌能量消耗")]
     public float shieldEnergyCost = 0.1f; // 盾牌每帧消耗的能量
 
@@ -64,6 +68,13 @@ public class Player : MonoBehaviour
         
         // 初始化盾牌为失活状态
         DeactivateShields();
+        
+        // 初始化死亡对象为禁用状态
+        if (deathObject != null)
+        {
+            deathObject.SetActive(false);
+            Debug.Log($"死亡对象已初始化为禁用状态: {deathObject.name}");
+        }
         
         UpdateHealthBar();
         UpdateEnergyBar();
@@ -312,9 +323,25 @@ public class Player : MonoBehaviour
     /// </summary>
     void Die()
     {
-        Debug.Log("玩家死亡!");
-        // 可以在这里添加死亡动画、重启游戏等逻辑
-        Destroy(gameObject);
+        Debug.Log("💀 玩家死亡!");
+        
+        // 激活死亡对象（例如游戏结束界面）
+        if (deathObject != null)
+        {
+            deathObject.SetActive(true);
+            Debug.Log($"✅ 死亡对象已激活: {deathObject.name}");
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ 未设置死亡对象！");
+        }
+        
+        // 可以在这里添加死亡动画等逻辑
+        // 暂时不销毁玩家对象，让死亡界面可以正常显示
+        // Destroy(gameObject);
+        
+        // 可选：禁用玩家控制
+        enabled = false;
     }
     
     /// <summary>
@@ -335,5 +362,37 @@ public class Player : MonoBehaviour
         currentEnergy += energyAmount;
         if (currentEnergy > maxEnergy) currentEnergy = maxEnergy;
         Debug.Log($"恢复能量: {energyAmount}，当前能量: {currentEnergy}/{maxEnergy}");
+    }
+    
+    /// <summary>
+    /// 测试死亡效果（用于调试）
+    /// </summary>
+    [ContextMenu("测试-触发死亡")]
+    public void TestDeath()
+    {
+        Debug.Log("🧪 [测试] 手动触发死亡...");
+        currentHealth = 0;
+        UpdateHealthBar();
+        Die();
+    }
+    
+    /// <summary>
+    /// 完全恢复（用于调试）
+    /// </summary>
+    [ContextMenu("测试-完全恢复")]
+    public void TestFullRestore()
+    {
+        Debug.Log("🧪 [测试] 完全恢复生命和能量");
+        currentHealth = maxHealth;
+        currentEnergy = maxEnergy;
+        enabled = true; // 重新启用控制
+        
+        if (deathObject != null)
+        {
+            deathObject.SetActive(false);
+        }
+        
+        UpdateHealthBar();
+        UpdateEnergyBar();
     }
 }
