@@ -16,9 +16,7 @@ public class Level : MonoBehaviour
     public Transform spawnPoint; // 玩家出生点
     
     [Header("敌人管理")]
-    public List<GameObject> enemies = new List<GameObject>(); // 敌人列表
-    public bool autoFindEnemies = true; // 是否自动查找子物体中的敌人
-    public string enemyTag = "Enemy"; // 敌人标签
+    public List<GameObject> enemies = new List<GameObject>(); // 敌人列表（手动拖拽敌人到这里）
     
     [Header("关卡完成设置")]
     public bool requireAllEnemiesDead = true; // 是否需要杀死所有敌人才能进入下一关
@@ -48,6 +46,18 @@ public class Level : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        Debug.Log($"[Level] ========== {levelName} Start ==========");
+        Debug.Log($"[Level] 敌人数量: {enemies.Count}");
+        
+        // 如果没有敌人，直接标记为完成
+        if (enemies.Count == 0)
+        {
+            Debug.Log($"[Level] 当前关卡没有敌人，跳过战斗");
+        }
+    }
+
     /// <summary>
     /// 关卡激活时调用
     /// </summary>
@@ -55,22 +65,25 @@ public class Level : MonoBehaviour
     {
         levelCompleted = false;
         
-        // 自动查找敌人
-        if (autoFindEnemies)
-        {
-            FindEnemiesInChildren();
-        }
-        
         // 统计活着的敌人数量
         CountAliveEnemies();
         
-        // 为每个敌人注册死亡监听
-        RegisterEnemyDeathListeners();
-        
-        Debug.Log($"关卡 {levelName} 激活！共有 {aliveEnemiesCount} 个敌人。");
+        Debug.Log($"[Level] 关卡 {levelName} 激活！共有 {aliveEnemiesCount} 个敌人。");
         
         // 触发关卡开始事件
         onLevelStart?.Invoke();
+        
+        // 如果没有敌人，立即完成关卡
+        if (aliveEnemiesCount == 0)
+        {
+            Debug.Log($"[Level] 当前关卡没有敌人，自动完成");
+            OnLevelCompleted();
+        }
+        else
+        {
+            // 为每个敌人注册死亡监听
+            RegisterEnemyDeathListeners();
+        }
     }
 
     /// <summary>
@@ -78,41 +91,7 @@ public class Level : MonoBehaviour
     /// </summary>
     public void OnLevelDeactivated()
     {
-        Debug.Log($"关卡 {levelName} 失活。");
-    }
-
-    /// <summary>
-    /// 自动查找子物体中的所有敌人
-    /// </summary>
-    void FindEnemiesInChildren()
-    {
-        enemies.Clear();
-        
-        // 查找带有特定标签的敌人
-        GameObject[] foundEnemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        foreach (GameObject enemy in foundEnemies)
-        {
-            // 只添加当前关卡下的敌人
-            if (enemy.transform.IsChildOf(transform))
-            {
-                enemies.Add(enemy);
-            }
-        }
-        
-        // 如果没有通过标签找到，尝试查找带有TripleProjectileEmitter组件的对象
-        if (enemies.Count == 0)
-        {
-            TripleProjectileEmitter[] emitters = GetComponentsInChildren<TripleProjectileEmitter>(true);
-            foreach (var emitter in emitters)
-            {
-                if (!enemies.Contains(emitter.gameObject))
-                {
-                    enemies.Add(emitter.gameObject);
-                }
-            }
-        }
-        
-        Debug.Log($"在关卡 {levelName} 中自动找到 {enemies.Count} 个敌人。");
+        Debug.Log($"[Level] 关卡 {levelName} 失活。");
     }
 
     /// <summary>
@@ -253,5 +232,35 @@ public class Level : MonoBehaviour
     public int GetAliveEnemiesCount()
     {
         return aliveEnemiesCount;
+    }
+    
+    /// <summary>
+    /// 在Inspector中显示当前敌人列表（用于调试）
+    /// </summary>
+    [ContextMenu("显示敌人列表")]
+    public void ShowEnemiesList()
+    {
+        Debug.Log($"[Level] ========== 当前敌人列表 ==========");
+        Debug.Log($"[Level] 关卡: {levelName}");
+        Debug.Log($"[Level] 列表数量: {enemies.Count}");
+        
+        if (enemies.Count > 0)
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i] != null)
+                {
+                    Debug.Log($"[Level]   {i + 1}. {enemies[i].name} (激活: {enemies[i].activeInHierarchy})");
+                }
+                else
+                {
+                    Debug.Log($"[Level]   {i + 1}. NULL");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log($"[Level] 列表为空，关卡会自动跳过战斗!");
+        }
     }
 }

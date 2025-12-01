@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Cinemachine;
 
 public class Player : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
     private float currentEnergy;
     private bool isShieldActive = false;
     private Vector2 lastInputDirection; // 记录最后的输入方向
+    private CinemachineImpulseSource impulseSource;
 
     void Start()
     {
@@ -296,7 +298,7 @@ public class Player : MonoBehaviour
     {
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
-        
+        impulseSource?.GenerateImpulse(new Vector3(0.5f, 0.5f, 0));
         Debug.Log($"受到伤害: {damage}，当前血量: {currentHealth}/{maxHealth}");
         
         if (currentHealth <= 0)

@@ -104,7 +104,7 @@ MonoBehaviour:
   fireInterval: 0.2
   projectileSpeed: 20
   scaleIncreaseRate: 3
-  fireRate: 1
+  fireRate: 0.3
   piercingWavePrefab: {fileID: 6704740092497624523, guid: 972fa4dbdea9249499dec7c96d60143a, type: 3}
   earthquakeWavePrefab: {fileID: 301656870351972616, guid: 6ba1f6048e741e042b02395324e42c34, type: 3}
   randomWaveType: 0
@@ -113,10 +113,13 @@ MonoBehaviour:
   earthquakeWaveTarget: {fileID: 0}
   normalProjectileTarget: {fileID: 0}
   isEnemyAI: 1
+  isAIActive: 1
   moveSpeed: 5
   moveRadius: 10
   moveChangeInterval: 3
   shootInterval: 2
+  useDistanceActivation: 1
+  activationDistance: 80
 --- !u!61 &94259233529983527
 BoxCollider2D:
   m_ObjectHideFlags: 0

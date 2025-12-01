@@ -27,10 +27,15 @@ public class TripleProjectileEmitter : MonoBehaviour
     
     [Header("敌人AI设置")]
     public bool isEnemyAI = false; // 是否启用敌人AI
+    public bool isAIActive = false; // AI是否激活（控制AI是否执行逻辑）
     public float moveSpeed = 5f; // AI移动速度
     public float moveRadius = 10f; // 移动半径
     public float moveChangeInterval = 3f; // 改变移动方向的间隔
     public float shootInterval = 2f; // 发射间隔
+    
+    [Header("距离激活设置")]
+    public bool useDistanceActivation = true; // 是否使用距离激活
+    public float activationDistance = 15f; // 激活距离
 
     private bool isFiring = false;
     
@@ -40,6 +45,8 @@ public class TripleProjectileEmitter : MonoBehaviour
     private float lastMoveChangeTime;
     private float lastShootTime;
     private Rigidbody2D rb;
+    private Transform player; // 玩家Transform
+    private bool hasBeenActivated = false; // 是否已经被激活过
 
     void Start()
     {
@@ -50,10 +57,29 @@ public class TripleProjectileEmitter : MonoBehaviour
         
         if (isEnemyAI)
         {
+            // 查找玩家
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+                Debug.Log($"[Enemy] {gameObject.name} 找到玩家: {player.name}");
+            }
+            else
+            {
+                Debug.LogWarning($"[Enemy] {gameObject.name} 未找到玩家!");
+            }
+            
             // 敌人AI模式初始化
             SetRandomTargetPosition();
             lastMoveChangeTime = Time.time;
             lastShootTime = Time.time;
+            
+            // 如果启用距离激活，初始状态为未激活
+            if (useDistanceActivation)
+            {
+                isAIActive = false;
+                Debug.Log($"[Enemy] {gameObject.name} 启用距离激活，初始状态: 未激活");
+            }
         }
         else
         {
@@ -66,8 +92,39 @@ public class TripleProjectileEmitter : MonoBehaviour
     {
         if (isEnemyAI)
         {
-            // 敌人AI模式
-            HandleEnemyAI();
+            // 如果启用距离激活且尚未被激活，检查距离
+            if (useDistanceActivation && !hasBeenActivated && player != null)
+            {
+                float distance = Vector3.Distance(transform.position, player.position);
+                
+                // 每秒输出一次距离（用于调试）
+                if (Time.frameCount % 60 == 0)
+                {
+                    Debug.Log($"[Enemy] {gameObject.name} 距离玩家: {distance:F2}m / {activationDistance}m");
+                }
+                
+                // 如果玩家进入激活范围
+                if (distance <= activationDistance)
+                {
+                    Debug.Log($"[Enemy] {gameObject.name} 玩家进入激活范围! 距离: {distance:F2}m");
+                    ActivateAI();
+                    hasBeenActivated = true; // 标记为已激活，避免重复触发
+                }
+            }
+            
+            // 只有激活状态才执行AI逻辑
+            if (isAIActive)
+            {
+                HandleEnemyAI();
+            }
+            else
+            {
+                // 未激活时停止移动
+                if (rb != null)
+                {
+                    rb.velocity = Vector2.zero;
+                }
+            }
         }
         else
         {
@@ -492,6 +549,69 @@ public class TripleProjectileEmitter : MonoBehaviour
     {
         SetFireRate(fireRate - decrement);
     }
+    
+    /// <summary>
+    /// 激活敌人AI（由房间或其他系统调用）
+    /// </summary>
+    public void ActivateAI()
+    {
+        if (!isEnemyAI)
+        {
+            Debug.LogWarning($"[Enemy] {gameObject.name} 不是AI敌人，无法激活AI");
+            return;
+        }
+        
+        if (isAIActive)
+        {
+            Debug.Log($"[Enemy] {gameObject.name} AI已经处于激活状态");
+            return;
+        }
+        
+        isAIActive = true;
+        hasBeenActivated = true;
+        // 重置计时器，避免刚激活就立即攻击
+        lastShootTime = Time.time;
+        lastMoveChangeTime = Time.time;
+        Debug.Log($"[Enemy] ✅ {gameObject.name} AI已激活! isEnemyAI={isEnemyAI}, isAIActive={isAIActive}");
+    }
+    
+    /// <summary>
+    /// 停止敌人AI（由房间或其他系统调用）
+    /// </summary>
+    public void DeactivateAI()
+    {
+        isAIActive = false;
+        hasBeenActivated = false; // 重置激活状态，允许重新激活
+        // 停止移动
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        Debug.Log($"[Enemy] {gameObject.name} AI已停止");
+    }
+    
+    /// <summary>
+    /// 检查AI是否激活
+    /// </summary>
+    public bool IsAIActive()
+    {
+        return isAIActive;
+    }
+    
+    /// <summary>
+    /// 设置AI激活状态
+    /// </summary>
+    public void SetAIActive(bool active)
+    {
+        if (active)
+        {
+            ActivateAI();
+        }
+        else
+        {
+            DeactivateAI();
+        }
+    }
 
     /// <summary>
     /// 检查是否正在发射
@@ -508,5 +628,33 @@ public class TripleProjectileEmitter : MonoBehaviour
     {
         StopAllCoroutines();
         isFiring = false;
+    }
+    
+    /// <summary>
+    /// 在Scene视图中绘制激活范围（仅敌人AI模式）
+    /// </summary>
+    void OnDrawGizmosSelected()
+    {
+        if (isEnemyAI && useDistanceActivation)
+        {
+            // 绘制激活范围
+            Gizmos.color = isAIActive ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(transform.position, activationDistance);
+            
+            // 如果找到玩家，绘制连线
+            if (player != null)
+            {
+                float distance = Vector3.Distance(transform.position, player.position);
+                Gizmos.color = distance <= activationDistance ? Color.green : Color.yellow;
+                Gizmos.DrawLine(transform.position, player.position);
+            }
+            
+            #if UNITY_EDITOR
+            // 绘制标签
+            string statusText = isAIActive ? "已激活" : "未激活";
+            UnityEditor.Handles.Label(transform.position + Vector3.up * (activationDistance + 1f), 
+                $"激活距离: {activationDistance}m\n状态: {statusText}");
+            #endif
+        }
     }
 }
