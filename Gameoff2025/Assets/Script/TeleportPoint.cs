@@ -115,7 +115,10 @@ public class TeleportPoint : MonoBehaviour
     /// </summary>
     private void PerformTeleport(GameObject player)
     {
+        Debug.Log($"[TeleportPoint] ========== 执行传送 ==========");
         Debug.Log($"[TeleportPoint] 从 {gameObject.name} 传送到 {targetTeleportPoint.gameObject.name}");
+        Debug.Log($"[TeleportPoint] 源房间: {(parentRoom != null ? parentRoom.gameObject.name : "null")}");
+        Debug.Log($"[TeleportPoint] 目标房间: {(targetTeleportPoint.parentRoom != null ? targetTeleportPoint.parentRoom.gameObject.name : "null")}");
         
         // 禁用双方的传送（避免重复触发）
         canTeleport = false;
@@ -126,21 +129,17 @@ public class TeleportPoint : MonoBehaviour
         
         // 传送玩家
         player.transform.position = targetPosition;
+        Debug.Log($"[TeleportPoint] 玩家传送到位置: {targetPosition}");
         
         // 启动冷却计时
         Invoke(nameof(ResetCooldown), cooldownTime);
         targetTeleportPoint.Invoke(nameof(ResetCooldown), cooldownTime);
         
-        // 通知源房间和目标房间玩家已传送
-        if (parentRoom != null)
-        {
-            parentRoom.OnPlayerTeleported();
-        }
+        // 只通知目标房间玩家已传送(触发战斗)
         if (targetTeleportPoint.parentRoom != null)
         {
-            targetTeleportPoint.parentRoom.OnPlayerTeleported();
-            // 通知目标房间玩家进入
-            targetTeleportPoint.parentRoom.OnPlayerEnterRoom();
+            Debug.Log($"[TeleportPoint] 通知目标房间 {targetTeleportPoint.parentRoom.gameObject.name} 玩家已传送");
+            //targetTeleportPoint.parentRoom.OnPlayerTeleported();
         }
     }
 
